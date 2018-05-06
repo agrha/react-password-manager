@@ -1,32 +1,18 @@
 import React, {Component} from 'react'
 import Password from './Password.jsx'
+import PasswordForm from './PasswordForm.jsx'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { getRestaurant } from '../store/restaurant/restaurant.action'
+import { getAllPassword } from '../store/password/action.password'
 import {BrowserRouter as Router} from 'react-router-dom'
-import {Grid, Row, Col, ButtonToolbar, DropdownButton, MenuItem} from 'react-bootstrap'
-import './Utility.css'
 import './Password.css'
 
 
-class RestaurantList extends Component {
+class Passwordlist extends Component {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      category: ''
-    }
-  }
-
-  componentDidMount(payload) {
-    payload = '1'
-    this.setState({category:payload})
-    this.props.getRestaurant(payload)
-  }
-
-  fetchRestaurantByCategory(payload) {
-    this.setState({category:payload})
-    this.props.getRestaurant(payload)
+  UNSAFE_componentWillMount(){
+    this.props.getAllPassword()
+    // console.log(this.props.passwords)
   }
 
   render () {
@@ -35,45 +21,36 @@ class RestaurantList extends Component {
     )
     return (
     <Router>
-    <div class="limiter">
-      <div class="container-table100">
-        <div class="wrap-table100">
-          <div class="table100 ver1 m-b-110">
-            <div class="table100-head">
-            <table>
-              <thead>
-								<tr class="row100 head">
-									<th class="cell100 column1">WebPage</th>
-									<th class="cell100 column2">Username</th>
-									<th class="cell100 column3">Password</th>
-									<th class="cell100 column4">Created At</th>
-									<th class="cell100 column5">Updated At</th>
-								</tr>
-							</thead>
-              <tbody>
-                <code>{password}</code>
-              </tbody>
-            </table>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-      
+      <div className="container">
+      <PasswordForm className='flex-frame'></PasswordForm>
+      <table className="table table-striped">
+        <thead className="thead-dark">
+          <tr>
+            <th scope="col">Website</th>
+            <th scope="col">Username</th>
+            <th scope="col">Password</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {password}
+        </tbody>
+      </table>
+      </div> 
     </Router>
     )
   }
 }
 
 const mapStateToProps = (state) => ({
-  restaurants: state.restaurant.data
+  passwords: state.password.passwords
 })
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
-  getRestaurant
+  getAllPassword
 }, dispatch)
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(RestaurantList);
+)(Passwordlist);
