@@ -1,47 +1,22 @@
 import React, { Component } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { editPassword,getAllPassword } from '../store/password/action.password'
+import { getAllUsers } from '../store/user/action.user'
+import { Link } from 'react-router-dom'
 import './Password.css'
 
-class EditForm extends Component {
+class Login extends Component {
   constructor() {
     super()
     this.state = {
       key:'',
-      url: '',
       username: '',
       password: '',
-      createdAt: '',
-      upperCase: false,
-      lowerCase: false,
-      specialCase: false,
-      length: false,
-      numberCase: false,
-      userId: localStorage.getItem('userKey')
     }
   }
 
   UNSAFE_componentWillMount () {
-    this.props.getAllPassword()
-  }
-
-  componentDidMount () {
-    var password = {}
-    this.props.passwords.map(data => {
-      if (data.key === this.props.match.params.key) {
-        password = data
-      }
-    })
-    console.log(this.props.passwords)
-    console.log(password)
-    this.setState({
-      key: password.key,
-      url: password.url,
-      username: password.username,
-      password: password.password,
-      createdAt: password.createdAt
-    })
+    this.props.getAllUsers()
   }
 
   checkLength () {
@@ -122,10 +97,9 @@ class EditForm extends Component {
       this.checkNumber()
       this.checkSpecial()
     })
-
   }
 
-  handleSubmit = (e) => {
+  login = (e) => {
     e.preventDefault()
     if (
       this.state.specialCase &&
@@ -136,51 +110,35 @@ class EditForm extends Component {
       this.state.username !== '' &&
       this.state.password !== ''
     ) {
-      let date = new Date()
-      console.log(this.state.userId)
-      let editedPassword = {
-        key: this.state.key,
-        url: this.state.url,
-        username: this.state.username,
-        userId: this.state.userId,
-        password: this.state.password,
-        createdAt: this.state.createdAt,
-        updatedAt: date.toLocaleString()
+        let userLogin = {
+          username: this.state.username,
+          password: this.state.password,
+          createdAt: this.state.createdAt,
+        }
+        this.props.users.map(user => {
+          if(user.username === userLogin.username){
+            if(user.password === userLogin.password){
+              localStorage.setItem('userKey', user.key)
+              localStorage.setItem('username', user.username)
+              localStorage.setItem('password', user.password)
+              this.props.history.push('/home')
+            } else {
+              alert('wrong password')
+            }
+          } else {
+            alert('user not found')
+          }
+        })
       }
-
-      this.props.editPassword(editedPassword)
-      this.props.history.push('/home')
-    }
-  }
-
-  clearForm() {
-    this.setState({
-      url: '',
-      username: '',
-      password: '',
-      userId: localStorage.getItem('userKey')
-    })
   }
 
   render () {
     return (
       <div className="container">
         <div className="flex-frame">
-          <form onSubmit={this.handleSubmit}>
+          <form onSubmit={this.login}>
             <fieldset>
-              <h1><strong>Update Form</strong></h1>
-                <div className="form-group">
-                  <label htmlFor="inputUrl">URL</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="inputUrl"
-                    placeholder="Enter Your URL"
-                    name="url"
-                    value={this.state.url}
-                    onChange={this.handleOnChange}
-                  />
-                </div>
+              <h1><strong>Login Form</strong></h1>
                 <div className="form-group">
                   <label htmlFor="inputUsername">Username</label>
                   <input
@@ -236,24 +194,28 @@ class EditForm extends Component {
                 this.state.numberCase &&
                 this.state.username !== '' &&
                 this.state.password !== ''
-              )} type="submit" className="btn btn-primary">Submit</button>
+              )} type="submit" className="btn btn-primary button">Submit</button>
+              <Link to={`/register`}>
+                <button className="btn btn-primary button">
+                  To Register
+                </button>
+              </Link>
             </fieldset>
           </form>
         </div>
-      </div>
+      </div>  
     )
   }
 }
 
 const mapStateToProps = (state) => ({
-  passwords: state.password.passwords,
-  loading: state.password.loading,
-  error: state.password.error
+  users: state.user.users,
+  loading: state.user.loading,
+  error: state.user.error
 })
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-  editPassword,
-  getAllPassword
+  getAllUsers
 }, dispatch)
 
-export default connect(mapStateToProps, mapDispatchToProps)(EditForm)
+export default connect(mapStateToProps, mapDispatchToProps)(Login)

@@ -11,4 +11,6 @@ const app = firebase.initializeApp(config);
 
 const db = app.database()
 const password = db.ref('user-password')
-export default password
+const user = db.ref('user')
+const fire = {password, user}
+export default fire

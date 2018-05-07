@@ -1,4 +1,4 @@
-import password from '../../firebase'
+import fire from '../../firebase'
 
 import {
   LOADING_PASSWORDS,
@@ -13,14 +13,14 @@ export const getAllPassword = () => {
   return dispatch => {
     dispatch(loadingPasswords())
     let passwordList = []
-    password.on('value', snapshot => {
+    fire.password.on('value', snapshot => {
       let pw = snapshot.val()
       for(let key in pw) {
         if(pw.hasOwnProperty(key)) {
           passwordList.push({key, ...pw[key]})
         }
       }
-      console.log(passwordList, 'ini array di get All')
+      console.log('semua password', passwordList)
       dispatch(successLoadPassword(passwordList))
     }, err => {
       dispatch(errorLoadPasswords())
@@ -43,9 +43,9 @@ const errorLoadPasswords = () => ({
 
 export const addPassword = (payload) => {
   return dispatch => {
-    password.push(payload)
+    fire.password.push(payload)
     let passwordList = []
-    password.once('value', snapshot => {
+    fire.password.once('value', snapshot => {
       let pw = snapshot.val()
       for(let key in pw) {
         if(pw.hasOwnProperty(key)) {
@@ -53,7 +53,7 @@ export const addPassword = (payload) => {
         }
       }
     })
-    let newPassword = password.pop()
+    let newPassword = passwordList.pop()
     dispatch(successAddPassword(newPassword))
   }
 }
@@ -65,7 +65,7 @@ const successAddPassword = (payload) => ({
 
 export const removePassword = (key) => {
   return dispatch => {
-    password.child(key).remove()
+    fire.password.child(key).remove()
     dispatch(deletePassword())
   }
 }
@@ -76,10 +76,11 @@ const deletePassword = ()=> ({
 
 export const editPassword = (payload) => {
   return dispatch => {
-    password.child(payload.key).set({
+    fire.password.child(payload.key).set({
       url: payload.url,
       username: payload.username,
       password: payload.password,
+      userId: payload.userId,
       createdAt: payload.createdAt,
       updatedAt: payload.updatedAt
     })

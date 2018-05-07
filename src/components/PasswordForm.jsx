@@ -87,30 +87,10 @@ class PasswordForm extends Component {
     }
   }
 
-  checkClass () {
-    if (
-      this.state.specialCase &&
-      this.state.upperCase &&
-      this.state.lowerCase &&
-      this.state.length &&
-      this.state.numberCase &&
-      this.state.password !== ''
-    ) {
-      this.setState({
-        passClass: "form-control is-valid"
-      })
-    } else {
-      this.setState({
-        passClass: "form-control is-invalid"
-      })
-    }
-  }
-
   handleOnChange = (e) => {
     this.setState({
       [e.target.name]: e.target.value
     }, () => {
-      this.checkClass()
       this.checkLength()
       this.checkUpper()
       this.checkLower()
@@ -137,6 +117,7 @@ class PasswordForm extends Component {
         username: this.state.username,
         password: this.state.password,
         createdAt: date.toLocaleString(),
+        userId: localStorage.getItem('userKey'),
         updatedAt: '-'
       }
 
@@ -187,7 +168,7 @@ class PasswordForm extends Component {
                 <label htmlFor="inputPass">Password</label>
                 <input
                   type="password"
-                  className={this.state.passClass}
+                  className="form-control"
                   id="inputPass"
                   placeholder="Enter Your Password"
                   name="password"

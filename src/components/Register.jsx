@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { editPassword,getAllPassword } from '../store/password/action.password'
+import { addUser } from '../store/user/action.user'
+import {BrowserRouter as Router} from 'react-router-dom'
 import './Password.css'
 
 class EditForm extends Component {
@@ -9,7 +10,6 @@ class EditForm extends Component {
     super()
     this.state = {
       key:'',
-      url: '',
       username: '',
       password: '',
       createdAt: '',
@@ -17,31 +17,8 @@ class EditForm extends Component {
       lowerCase: false,
       specialCase: false,
       length: false,
-      numberCase: false,
-      userId: localStorage.getItem('userKey')
+      numberCase: false
     }
-  }
-
-  UNSAFE_componentWillMount () {
-    this.props.getAllPassword()
-  }
-
-  componentDidMount () {
-    var password = {}
-    this.props.passwords.map(data => {
-      if (data.key === this.props.match.params.key) {
-        password = data
-      }
-    })
-    console.log(this.props.passwords)
-    console.log(password)
-    this.setState({
-      key: password.key,
-      url: password.url,
-      username: password.username,
-      password: password.password,
-      createdAt: password.createdAt
-    })
   }
 
   checkLength () {
@@ -137,19 +114,14 @@ class EditForm extends Component {
       this.state.password !== ''
     ) {
       let date = new Date()
-      console.log(this.state.userId)
-      let editedPassword = {
-        key: this.state.key,
-        url: this.state.url,
+      let user = {
         username: this.state.username,
-        userId: this.state.userId,
         password: this.state.password,
-        createdAt: this.state.createdAt,
-        updatedAt: date.toLocaleString()
+        createdAt: date.toLocaleString(),
+        updatedAt: '-'
       }
-
-      this.props.editPassword(editedPassword)
-      this.props.history.push('/home')
+      this.props.addUser(user)
+      this.props.history.push('/')
     }
   }
 
@@ -158,7 +130,6 @@ class EditForm extends Component {
       url: '',
       username: '',
       password: '',
-      userId: localStorage.getItem('userKey')
     })
   }
 
@@ -168,19 +139,7 @@ class EditForm extends Component {
         <div className="flex-frame">
           <form onSubmit={this.handleSubmit}>
             <fieldset>
-              <h1><strong>Update Form</strong></h1>
-                <div className="form-group">
-                  <label htmlFor="inputUrl">URL</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="inputUrl"
-                    placeholder="Enter Your URL"
-                    name="url"
-                    value={this.state.url}
-                    onChange={this.handleOnChange}
-                  />
-                </div>
+              <h1><strong>Register</strong></h1>
                 <div className="form-group">
                   <label htmlFor="inputUsername">Username</label>
                   <input
@@ -245,15 +204,8 @@ class EditForm extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  passwords: state.password.passwords,
-  loading: state.password.loading,
-  error: state.password.error
-})
-
 const mapDispatchToProps = dispatch => bindActionCreators({
-  editPassword,
-  getAllPassword
+  addUser
 }, dispatch)
 
-export default connect(mapStateToProps, mapDispatchToProps)(EditForm)
+export default connect(null, mapDispatchToProps)(EditForm)
