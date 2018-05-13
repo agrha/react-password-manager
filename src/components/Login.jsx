@@ -125,8 +125,6 @@ class Login extends Component {
             } else {
               alert('wrong password')
             }
-          } else {
-            alert('user not found')
           }
         })
       }

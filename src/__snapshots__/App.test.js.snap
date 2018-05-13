@@ -1,0 +1,189 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders App correctly 1`] = `
+<div
+  className="App"
+>
+  <header
+    className="App-header"
+  >
+    <img
+      alt="logo"
+      className="App-logo"
+      src="logo.svg"
+    />
+    <a
+      href="/home"
+      onClick={[Function]}
+    >
+      <h1
+        className="App-title"
+      >
+        Welcome To React
+      </h1>
+    </a>
+  </header>
+  <div
+    className="container"
+  >
+    <div
+      className="flex-frame"
+    >
+      <form
+        onSubmit={[Function]}
+      >
+        <fieldset>
+          <h1>
+            <strong>
+              Login Form
+            </strong>
+          </h1>
+          <div
+            className="form-group"
+          >
+            <label
+              htmlFor="inputUsername"
+            >
+              Username
+            </label>
+            <input
+              className="form-control"
+              id="inputUsername"
+              name="username"
+              onChange={[Function]}
+              placeholder="Enter Your Username"
+              type="text"
+              value=""
+            />
+          </div>
+          <div
+            className="form-group"
+          >
+            <label
+              htmlFor="inputPass"
+            >
+              Password
+            </label>
+            <input
+              autoFocus={true}
+              className="form-control"
+              id="inputPass"
+              name="password"
+              onChange={[Function]}
+              placeholder="Enter Your Password"
+              type="password"
+              value=""
+            />
+          </div>
+          <div
+            className="form-group bold"
+          >
+            <div
+              className="custom-control custom-checkbox"
+            >
+              <input
+                checked={undefined}
+                className="custom-control-input"
+                id="checkUpper"
+                type="checkbox"
+              />
+              <label
+                className="custom-control-label"
+                htmlFor="checkUpper"
+                id="labelUpper"
+              >
+                at least one uppercase letter?
+              </label>
+            </div>
+            <div
+              className="custom-control custom-checkbox"
+            >
+              <input
+                checked={undefined}
+                className="custom-control-input"
+                id="checkLower"
+                type="checkbox"
+              />
+              <label
+                className="custom-control-label"
+                htmlFor="checkLower"
+                id="labelLower"
+              >
+                at least one lowercase letter? 
+              </label>
+            </div>
+            <div
+              className="custom-control custom-checkbox"
+            >
+              <input
+                checked={undefined}
+                className="custom-control-input"
+                id="checkSpecial"
+                type="checkbox"
+              />
+              <label
+                className="custom-control-label"
+                htmlFor="checkSpecial"
+                id="labelSpecial"
+              >
+                at least one symbol?
+              </label>
+            </div>
+            <div
+              className="custom-control custom-checkbox"
+            >
+              <input
+                checked={undefined}
+                className="custom-control-input"
+                id="checkNumber"
+                type="checkbox"
+              />
+              <label
+                className="custom-control-label"
+                htmlFor="checkNumber"
+                id="labelNumber"
+              >
+                at least one number?
+              </label>
+            </div>
+            <div
+              className="custom-control custom-checkbox"
+            >
+              <input
+                checked={undefined}
+                className="custom-control-input"
+                id="checkLength"
+                type="checkbox"
+              />
+              <label
+                className="custom-control-label"
+                htmlFor="checkLength"
+                id="labelLength"
+              >
+                minimal 5 letter length?
+              </label>
+            </div>
+          </div>
+          <button
+            className="btn btn-primary button"
+            disabled={true}
+            type="submit"
+          >
+            Submit
+          </button>
+          <a
+            href="/register"
+            onClick={[Function]}
+          >
+            <button
+              className="btn btn-primary button"
+            >
+              To Register
+            </button>
+          </a>
+        </fieldset>
+      </form>
+    </div>
+  </div>
+</div>
+`;
